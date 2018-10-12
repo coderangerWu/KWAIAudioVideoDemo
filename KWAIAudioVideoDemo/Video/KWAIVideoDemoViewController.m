@@ -7,11 +7,11 @@
 //
 
 #import "KWAIVideoDemoViewController.h"
-#import "KWAIPlayer.h"
+#import "KWAIVPlayerView.h"
 
 @interface KWAIVideoDemoViewController ()
 
-@property (nonatomic, strong) KWAIPlayer *player;
+@property (nonatomic, strong) KWAIVPlayerView *vPlayer;
 
 @end
 
@@ -19,8 +19,8 @@
 
 - (void)dealloc
 {
-    [self.player stop];
-    self.player = nil;
+    [self.vPlayer stop];
+    self.vPlayer = nil;
 }
 
 - (void)viewDidLoad {
@@ -29,13 +29,35 @@
     self.title = @"Video Demo";
     self.view.backgroundColor = [UIColor whiteColor];
     
-    NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"1" withExtension:@"mp4"];
-    self.player = [[KWAIPlayer alloc] initWithURL:fileURL];
+    self.vPlayer.frame = self.view.bounds;
+    [self.view addSubview:self.vPlayer];
+//    [self.view.layer addSublayer:self.vPlayer.playerLayer];
     
-    self.player.previewView.frame = self.view.bounds;
-    [self.view addSubview:self.player.previewView];
-    
-    [self.player play];
+    [self.vPlayer play];
+}
+
+-(KWAIVPlayerView *)vPlayer
+{
+    if (_vPlayer == nil) {
+        NSURL *fileURL = [[NSBundle mainBundle] URLForResource:@"1" withExtension:@"mp4"];
+        KWAIVPlayerView *vPlayer = [[KWAIVPlayerView alloc] initWithFrame:CGRectZero url:fileURL];
+        
+        UITapGestureRecognizer *guesture = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(onScreenClicked:)];
+        [guesture setNumberOfTapsRequired:1];
+        [vPlayer addGestureRecognizer:guesture];
+        
+        _vPlayer = vPlayer;
+    }
+    return _vPlayer;
+}
+
+- (void)onScreenClicked:(UIGestureRecognizer *)guesture
+{
+    if ([self.vPlayer rate]>0) {
+        [self.vPlayer pause];
+    } else {
+        [self.vPlayer play];
+    }
 }
 
 @end

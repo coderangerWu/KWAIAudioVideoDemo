@@ -1,35 +1,59 @@
 //
-//  KWAIPlayer.m
+//  KWAIVPlayerView.m
 //  KWAIAudioVideoDemo
 //
-//  Created by Ranger Wu on 2018/10/11.
+//  Created by Ranger Wu on 2018/10/12.
 //  Copyright © 2018年 Ranger Wu. All rights reserved.
 //
 
-#import "KWAIPlayer.h"
-#import "KWAIPlayerView.h"
+#import "KWAIVPlayerView.h"
 
 static NSString *KWAIPlayerItemContext;
 
-@interface KWAIPlayer ()
-@property (nonatomic, strong) AVPlayer *player;
+@interface KWAIVPlayerView ()
+
 @property (nonatomic, strong) AVPlayerItem *playerItem;
 @property (nonatomic, strong) AVAsset *asset;
+@property (nonatomic, assign) BOOL isPlaying;
+
 @end
 
-@implementation KWAIPlayer
+@implementation KWAIVPlayerView
+// Override UIView method
++ (Class)layerClass {
+    return [AVPlayerLayer class];
+}
 
+#pragma mark - Properties
+- (AVPlayer *)player {
+    return self.playerLayer.player;
+}
+
+- (void)setPlayer:(AVPlayer *)player {
+    self.playerLayer.player = player;
+}
+
+- (AVPlayerLayer *)playerLayer {
+    return (AVPlayerLayer *)self.layer;
+}
+
+- (float)rate
+{
+    return [self player].rate;
+}
+
+#pragma mark - API
 - (void)dealloc
 {
     [self.playerItem removeObserver:self forKeyPath:@"status"];
-    self.playerItem = nil;
 }
 
-- (instancetype)initWithURL:(NSURL *)assetURL
+- (instancetype)initWithFrame:(CGRect)frame url:(NSURL *)assetURL
 {
-    if (assetURL && (self = [super init])) {
+    if (assetURL && (self = [super initWithFrame:frame])) {
+        self.backgroundColor = [UIColor blackColor];
+        
         _asset = [AVAsset assetWithURL:assetURL];
-        _previewView = [[KWAIPlayerView alloc] init];
         
         [self prepare];
     }
@@ -67,13 +91,15 @@ static NSString *KWAIPlayerItemContext;
 {
     NSArray *keys = @[@"tracks", @"duration", @"commonMetadata"];
     
-    self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset automaticallyLoadedAssetKeys:keys];
-    
-    [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:&KWAIPlayerItemContext];
-    
-    self.player = [AVPlayer playerWithPlayerItem:self.playerItem];
-    
-    [(KWAIPlayerView *)self.previewView setPlayer:self.player];
+    // must called in main queue
+    dispatch_async(dispatch_get_main_queue(), ^{
+        self.playerItem = [AVPlayerItem playerItemWithAsset:self.asset automaticallyLoadedAssetKeys:keys];
+        
+        [self.playerItem addObserver:self forKeyPath:@"status" options:NSKeyValueObservingOptionNew context:&KWAIPlayerItemContext];
+        
+        AVPlayer *player = [AVPlayer playerWithPlayerItem:self.playerItem];
+        self.playerLayer.player = player;
+    });
 }
 
 #pragma mark - PublicMethod
@@ -95,10 +121,9 @@ static NSString *KWAIPlayerItemContext;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (void)setVideoFillMode:(NSString *)fillMode
+- (BOOL)isPlaying
 {
-    AVPlayerLayer *playerLayer = (AVPlayerLayer *)[self.previewView layer];
-    playerLayer.videoGravity = fillMode;
+    return _isPlaying;
 }
 
 - (NSTimeInterval)currentPlaybackTime
@@ -115,14 +140,14 @@ static NSString *KWAIPlayerItemContext;
         return;
     
     [self.player seekToTime:CMTimeMakeWithSeconds(aCurrentPlaybackTime, NSEC_PER_SEC)
-      completionHandler:^(BOOL finished) {
-          if (!finished)
-              return;
-          
-          dispatch_async(dispatch_get_main_queue(), ^{
-              [self.player play];
-          });
-      }];
+          completionHandler:^(BOOL finished) {
+              if (!finished)
+                  return;
+              
+              dispatch_async(dispatch_get_main_queue(), ^{
+                  [self.player play];
+              });
+          }];
 }
 
 - (void)setPlaybackVolume:(float)playbackVolume
@@ -184,6 +209,15 @@ static NSString *KWAIPlayerItemContext;
                 break;
         }
     }
+    
+    if ([keyPath isEqualToString:@"status"]) {
+        
+    } else if ([keyPath isEqualToString:@"rate"]) {
+        if ([[change objectForKey:NSKeyValueChangeNewKey]integerValue]==0) {
+            _isPlaying = NO;
+        }else{
+            _isPlaying = YES;
+        }
+    }
 }
-
 @end

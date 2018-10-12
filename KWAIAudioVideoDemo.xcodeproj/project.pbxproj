@@ -21,9 +21,8 @@
 		44399397216F476700FBF013 /* 1.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 44399396216F476700FBF013 /* 1.mp3 */; };
 		4439939A216F4A2900FBF013 /* KWAIAudioRecorderController.m in Sources */ = {isa = PBXBuildFile; fileRef = 44399399216F4A2900FBF013 /* KWAIAudioRecorderController.m */; };
 		4439939C216F4DDC00FBF013 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4439939B216F4DDC00FBF013 /* icon.png */; };
-		4439939F216F4EAE00FBF013 /* KWAIPlayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 4439939E216F4EAE00FBF013 /* KWAIPlayer.m */; };
-		443993A2216F4F0A00FBF013 /* KWAIPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 443993A1216F4F0A00FBF013 /* KWAIPlayerView.m */; };
 		443993A4216F504C00FBF013 /* 1.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 443993A3216F504B00FBF013 /* 1.mp4 */; };
+		444D76BF21704AED0036871C /* KWAIVPlayerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 444D76BE21704AED0036871C /* KWAIVPlayerView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,11 +50,9 @@
 		44399398216F4A2900FBF013 /* KWAIAudioRecorderController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KWAIAudioRecorderController.h; sourceTree = "<group>"; };
 		44399399216F4A2900FBF013 /* KWAIAudioRecorderController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KWAIAudioRecorderController.m; sourceTree = "<group>"; };
 		4439939B216F4DDC00FBF013 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
-		4439939D216F4EAE00FBF013 /* KWAIPlayer.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KWAIPlayer.h; sourceTree = "<group>"; };
-		4439939E216F4EAE00FBF013 /* KWAIPlayer.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KWAIPlayer.m; sourceTree = "<group>"; };
-		443993A0216F4F0A00FBF013 /* KWAIPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KWAIPlayerView.h; sourceTree = "<group>"; };
-		443993A1216F4F0A00FBF013 /* KWAIPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KWAIPlayerView.m; sourceTree = "<group>"; };
 		443993A3216F504B00FBF013 /* 1.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = 1.mp4; sourceTree = "<group>"; };
+		444D76BD21704AED0036871C /* KWAIVPlayerView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = KWAIVPlayerView.h; sourceTree = "<group>"; };
+		444D76BE21704AED0036871C /* KWAIVPlayerView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = KWAIVPlayerView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -127,10 +124,8 @@
 			children = (
 				44399382216F3DAE00FBF013 /* KWAIVideoDemoViewController.h */,
 				44399383216F3DAE00FBF013 /* KWAIVideoDemoViewController.m */,
-				4439939D216F4EAE00FBF013 /* KWAIPlayer.h */,
-				4439939E216F4EAE00FBF013 /* KWAIPlayer.m */,
-				443993A0216F4F0A00FBF013 /* KWAIPlayerView.h */,
-				443993A1216F4F0A00FBF013 /* KWAIPlayerView.m */,
+				444D76BD21704AED0036871C /* KWAIVPlayerView.h */,
+				444D76BE21704AED0036871C /* KWAIVPlayerView.m */,
 			);
 			path = Video;
 			sourceTree = "<group>";
@@ -235,15 +230,14 @@
 			files = (
 				4439936C216F3A3E00FBF013 /* ViewController.m in Sources */,
 				44399384216F3DAE00FBF013 /* KWAIVideoDemoViewController.m in Sources */,
+				444D76BF21704AED0036871C /* KWAIVPlayerView.m in Sources */,
 				44399395216F3FC800FBF013 /* KWAIAudioController.m in Sources */,
 				4439939A216F4A2900FBF013 /* KWAIAudioRecorderController.m in Sources */,
-				4439939F216F4EAE00FBF013 /* KWAIPlayer.m in Sources */,
 				44399377216F3A4000FBF013 /* main.m in Sources */,
 				44399392216F3EAF00FBF013 /* KWAIMeterTable.m in Sources */,
 				44399380216F3C5600FBF013 /* KWAIAudioDemoViewController.m in Sources */,
 				44399388216F3DF300FBF013 /* KWAIAudioVideoDemoViewController.m in Sources */,
 				44399369216F3A3E00FBF013 /* AppDelegate.m in Sources */,
-				443993A2216F4F0A00FBF013 /* KWAIPlayerView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
